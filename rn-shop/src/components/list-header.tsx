@@ -1,7 +1,8 @@
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import { CATEGORIES } from "../../assets/categories";
 
 export const ListHeader = () => {
     return (
@@ -41,7 +42,21 @@ export const ListHeader = () => {
                 <View style={styles.heroContainer}>
                     <Image source={require('../../assets/images/hero.png')} style={styles.heroImage} />
                 </View>
-                <View style={styles.categoriesContainer}></View>
+                <View style={styles.categoriesContainer}>
+                  <Text style={styles.sectionTitle}> Categories </Text>
+                  <FlatList data={CATEGORIES} renderItem={({ item }) => (
+                    <Link asChild href={`/categories/${item.slug}`}>
+                      <Pressable style={styles.category}>
+                        <Image source={{ uri: item.imageUrl }} style={styles.categoryImage}/>
+                        <Text style={styles.categoryText}> {item.name} </Text>
+                      </Pressable>
+                    </Link>
+                  )}
+                  keyExtractor={item => item.name}
+                  horizontal
+                  showsHorizontalScrollIndicator={false} />
+
+                </View>
             </View>
         </View>
     );
