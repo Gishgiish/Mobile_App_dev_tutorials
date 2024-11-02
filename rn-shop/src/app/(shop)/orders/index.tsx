@@ -1,13 +1,41 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, ListRenderItem, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { Link, Stack } from "expo-router";
+import { ORDERS } from "../../../../assets/order";
+import { Order, OrderStatus } from "../../../../assets/types/order";
+
+const statusDisplayText: Record<OrderStatus, string> = {
+  Pending: 'Pending',
+  Completed: 'Completed',
+  Shipped: 'Shipped',
+  InTransit: 'In Transit',
+};
+
+const renderItem: ListRenderItem<Order> = ({ item }) => <Link href={`/orders/${item.slug}`} asChild>
+<Pressable style={styles.orderContainer}>
+  <View style={styles.orderContent}>
+    <View style={styles.orderDetailsContainer}>
+      <Text style={styles.orderItem}>{item.item}</Text>
+      <Text style={styles.orderDetails}>{item.details}</Text>
+      <Text style={styles.orderDate}>{item.date}</Text>
+    </View>
+    <View style={[styles.statusBadge, styles[`statudsBadge_${item.status}`]]}>
+      <Text style={styles.statusText}>
+        {statusDisplayText[item.status]}
+      </Text>
+    </View>
+  </View>
+</Pressable>
+</Link>
 
 const Orders = () => {
   return (
-    <View >
-      <View>
-        <Text>Orders </Text>
-       
-      </View>
+    <View style={styles.container}>
+      <Stack.Screen options={{ title: 'Orders'}} />
+      <FlatList data={ORDERS}
+       keyExtractor={item => item.id.toString()}
+       renderItem={renderItem} />
+      
     </View>
   );
 };
