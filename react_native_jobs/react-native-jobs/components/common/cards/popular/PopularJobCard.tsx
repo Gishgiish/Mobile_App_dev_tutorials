@@ -1,16 +1,16 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
-import styles from "./popularjobcard.style";
+import styles, { dynamicStyles } from "./popularjobcard.style";
 import { checkImageURL } from "../../../../utils";
 import React from "react";
 
 const PopularJobCard = ({ item, selectedJob, handleCardPress }) => {
     return (
         <TouchableOpacity
-            style={styles.container(selectedJob, item)}
+            style={dynamicStyles.getContainerStyle(selectedJob, item)}
             onPress={() => handleCardPress(item)}
         >
-            <TouchableOpacity style={styles.logoContainer(selectedJob, item)}>
+            <TouchableOpacity style={dynamicStyles.getLogoContainerStyle(selectedJob, item)}>
                 <Image
                     source={{
                         uri: checkImageURL(item?.employer_logo)
@@ -26,11 +26,11 @@ const PopularJobCard = ({ item, selectedJob, handleCardPress }) => {
             </Text>
 
             <View style={styles.infoContainer}>
-                <Text style={styles.jobName(selectedJob, item)} numberOfLines={1}>
+                <Text style={dynamicStyles.getJobNameStyle(selectedJob, item)} numberOfLines={1}>
                     {item.job_title}
                 </Text>
                 <View style={styles.infoWrapper}>
-                    <Text style={styles.publisher(selectedJob, item)}>
+                    <Text style={dynamicStyles.getPublisherStyle(selectedJob, item)}>
                         {item?.job_publisher} -
                     </Text>
                     <Text style={styles.location}> {item.job_country}</Text>

@@ -7,12 +7,17 @@ import { COLORS } from "../../../constants";
 import NearbyJobCard from "../../common/cards/nearby/NearbyJobCard";
 import useFetch from "../../../hook/useFetch";
 
+interface Job {
+    job_id: string;
+    // Add other properties as needed, e.g., title, company, etc.
+}
+
 const Nearbyjobs = () => {
     const router = useRouter();
     const { data, isLoading, error } = useFetch("search", {
         query: "React Native developer",
         num_pages: "1",
-    });
+    }) as unknown as { data: Job[]; isLoading: boolean; error: boolean };
 
     return (
         <View style={styles.container}>
